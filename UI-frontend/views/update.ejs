@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update <%= product.name %> </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css
+" 
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 </head>
 <body>
-    <h3>Update <%= product.name %></h3>
-    <form action="/update/<%= product.productid %>" method="post">
-        <input type="hidden" name="productid" value = "<%= product.productid %>">
-        <input type="hidden" name="userid" value = "<%= product.userid %>">
-        <div>Username: <input type="text" name="name" value = "<%= product.name %>" required></div>
-        <div>Password: <input type="text" name="price" value = "<%= product.price %>" required></div>
-        <button type="submit">Edit</button>
-    </form>
+    <div class="container">
+        <div class="jumbotron">
+            <h3>Update <%= product.name %></h3>
+            <form action="/update/<%= product.productid %>" method="post">
+                <input type="hidden" name="productid" value = "<%= product.productid %>">
+                <input type="hidden" name="userid" value = "<%= product.userid %>">
+                <div>Name: <input type="text" name="name" value = "<%= product.name %>" required></div>
+                <div>Price: <input type="text" name="price" value = "<%= product.price %>" required></div>
+                <button type="submit">Edit</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
