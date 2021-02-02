@@ -43,7 +43,11 @@
                         <td><%=  element.name %></td>
                         <td><%=  element.price %></td>
                         <td><a href="/update/<%= element.productid %>">Update</a></td>
-                        <td><form action="/delete/<%= element.productid %>" method="post"><button type="button" class="btn btn-danger" type="submit">Delete</button></form></td>
+                        <td>
+                            <form action="/delete/<%= element.productid %>" method="post">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 <% }) %>
             </table>

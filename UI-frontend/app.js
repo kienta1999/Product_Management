@@ -112,8 +112,8 @@ app.post('/update/:productid', (req, res) => {
     let url = baseUrl + '/product/' + productid + '/update'
     axios.put(url, data)
     .then((response) => {
-        // console.log(response.data.body)
-        res.redirect('/')
+        console.log(response.data.body)
+        // res.redirect('/')
     })
     .catch(err => {
         console.log(err)
@@ -123,6 +123,7 @@ app.post('/update/:productid', (req, res) => {
 
 //-------------------------------------DELETE PRODUCT------------------------------------
 app.post('/delete/:productid', (req, res) => {
+    console.log("here")
     let productid = req.params.productid
     let url = baseUrl + '/product/' + productid + '/delete'
     console.log(url)
