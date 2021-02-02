@@ -52,7 +52,7 @@ public class Controller {
 		else {
 			response.setBody(dbUser);
 			response.setStatus(400);
-			response.setDescription("Bad Request");
+			response.setDescription("Duplicate Username");
 		}
 		response.setType("user");
 		return response;

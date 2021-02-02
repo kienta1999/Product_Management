@@ -11,13 +11,14 @@ const baseUrl = 'http://localhost:8000'
 app.use(bodyParser.urlencoded({ extended: true }))
  
 // parse application/json
-// app.use(bodyParser.json())
+app.use(bodyParser.json())
 
 //serve static folder
 app.use(express.static(path.join(__dirname, 'static')));
 
 let userid = null
 let username = null
+let message = null
 
 //-------------------------------------HOME PAGE / SHOW ALL PRODUCTS------------------------------------
 app.get('/', function (req, res) {
@@ -31,7 +32,7 @@ app.get('/', function (req, res) {
         })
     }
     else{
-        res.render("login.ejs")
+        res.render("login.ejs", {message: message})
     }
 })
 
@@ -39,10 +40,11 @@ app.get('/', function (req, res) {
 app.post('/register', (req, res) => {  
     // let data = 'username='+ req.body.username + '&password=' + req.body.password
     let data = formurlencoded(req.body)
-    console.log(data)
     axios.post(baseUrl + '/user/register', data)
     .then(response => {
-        console.dir(response)
+        if(parseInt(response.data.status) > 299){
+            message = response.data.description
+        }
         res.redirect('/')
     })
     .catch(err => {
@@ -57,9 +59,13 @@ app.post('/login', (req, res) => {
     let data = formurlencoded(req.body)
     axios.post(baseUrl + '/user/login', data)
     .then(response => {
-        userid = response.data.body.id
-        username = response.data.body.username
-        // res.send(response)
+        if(parseInt(response.data.status) > 299){
+            message = response.data.description
+        }
+        else{
+            userid = response.data.body.id
+            username = response.data.body.username
+        }
         res.redirect('/')
     })
     .catch(err => {
@@ -116,8 +122,7 @@ app.post('/update/:productid', (req, res) => {
 })
 
 //-------------------------------------DELETE PRODUCT------------------------------------
-app.post('delete/:productid', (req, res) => {
-    res.redirect('/')
+app.post('/delete/:productid', (req, res) => {
     let productid = req.params.productid
     let url = baseUrl + '/product/' + productid + '/delete'
     console.log(url)
@@ -136,6 +141,7 @@ app.post('delete/:productid', (req, res) => {
 app.post('/logout', (req, res) => {
     userid = null
     username = null
+    message = null
     res.redirect('/')
 });
 
