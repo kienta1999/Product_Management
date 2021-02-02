@@ -3,10 +3,7 @@ const express = require('express')
 const axios = require('axios');
 const path = require('path');
 const app = express()
-
-const { JSDOM } = require( "jsdom" );
-const { window } = new JSDOM( "" );
-const $ = require( "jquery" )( window );
+const formurlencoded = require('form-urlencoded').default;
 
 const baseUrl = 'http://localhost:8000'
 
@@ -14,12 +11,12 @@ const baseUrl = 'http://localhost:8000'
 app.use(bodyParser.urlencoded({ extended: true }))
  
 // parse application/json
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 
 //serve static folder
 app.use(express.static(path.join(__dirname, 'static')));
 
-let userid = 1
+let userid = null
 let username = null
 
 //-------------------------------------HOME PAGE / SHOW ALL PRODUCTS------------------------------------
@@ -27,7 +24,7 @@ app.get('/', function (req, res) {
     if(userid){
         axios.get(baseUrl + '/product/user/' + userid)
         .then((response) => {
-            res.render("home.ejs", {products: response.data.body, userid: userid})
+            res.render("home.ejs", {products: response.data.body, userid: userid, username: username})
         })
         .catch(err => {
             console.log(err)
@@ -40,14 +37,13 @@ app.get('/', function (req, res) {
 
 //-------------------------------------REGISTER ------------------------------------
 app.post('/register', (req, res) => {  
-    console.log(req.body);
-    let data = 'username='+ req.body.username + '&password' + req.body.password
-    axios.post(baseUrl + '/user/register', req.body, {headers: {
-        'Content-Type': 'application/json',
-    }} )
+    // let data = 'username='+ req.body.username + '&password=' + req.body.password
+    let data = formurlencoded(req.body)
+    console.log(data)
+    axios.post(baseUrl + '/user/register', data)
     .then(response => {
         console.dir(response)
-        res.send(response)
+        res.redirect('/')
     })
     .catch(err => {
         console.log(err)
@@ -57,14 +53,14 @@ app.post('/register', (req, res) => {
 
 //-------------------------------------LOGIN------------------------------------
 app.post('/login', (req, res) => {
-    let data = 'username='+ req.body.username + '&password' + req.body.password
-    axios.post(baseUrl + '/user/login', {
-        username: req.body.username,
-        password: req.body.password
-    } )
+    // let data = 'username='+ req.body.username + '&password=' + req.body.password
+    let data = formurlencoded(req.body)
+    axios.post(baseUrl + '/user/login', data)
     .then(response => {
-        console.dir(response)
-        res.send(response)
+        userid = response.data.body.id
+        username = response.data.body.username
+        // res.send(response)
+        res.redirect('/')
     })
     .catch(err => {
         console.log(err)
@@ -74,8 +70,12 @@ app.post('/login', (req, res) => {
    
 //-------------------------------------ADD PRODUCT------------------------------------
 app.post('/create', (req, res) => {
-    axios.post(baseUrl + '/product/create', req.body)
+    console.log(req.body);
+    // let data = `userid=${req.body.userid}&name=${req.body.name}&price=${req.body.price}`
+    let data = formurlencoded(req.body)
+    axios.post(baseUrl + '/product/create', data)
     .then((response) => {
+        console.log(response.data);
         res.redirect('/')
     })
     .catch(err => {
@@ -102,8 +102,9 @@ app.get('/update/:productid', (req, res) => {
 //-------------------------------------UPDATE PRODUCT POST------------------------------------
 app.post('/update/:productid', (req, res) => {
     let productid = req.params.productid
+    let data = formurlencoded(req.body)
     let url = baseUrl + '/product/' + productid + '/update'
-    axios.put(url, req.body)
+    axios.put(url, data)
     .then((response) => {
         // console.log(response.data.body)
         res.redirect('/')
@@ -116,8 +117,10 @@ app.post('/update/:productid', (req, res) => {
 
 //-------------------------------------DELETE PRODUCT------------------------------------
 app.post('delete/:productid', (req, res) => {
+    res.redirect('/')
     let productid = req.params.productid
-    let url = baseUrl + '/product/' + productid + '/update'
+    let url = baseUrl + '/product/' + productid + '/delete'
+    console.log(url)
     axios.delete(url)
     .then((response) => {
         console.log(response.data.body)

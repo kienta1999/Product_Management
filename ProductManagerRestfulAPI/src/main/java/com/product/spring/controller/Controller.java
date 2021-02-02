@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import com.product.spring.model.Product;
 import com.product.spring.model.Response;
@@ -38,8 +39,8 @@ public class Controller {
 	public List<User> home() {
 		return userService.findAllUser();
 	}
-	@PostMapping("/user/register")
-	public Response register(@ModelAttribute @RequestBody User user) {
+	@PostMapping(value = "/user/register")
+	public Response register(@ModelAttribute User user) {
 //		logger.info(user);
 		User dbUser = userService.findUserByUsername(user.getUsername());
 		if(dbUser == null) {
@@ -56,8 +57,8 @@ public class Controller {
 		response.setType("user");
 		return response;
 	}
-	@PostMapping("/user/login")
-	public Response login(@ModelAttribute @RequestBody User user) {
+	@PostMapping(value = "/user/login")
+	public Response login(@ModelAttribute User user) {
 		User dbUser = userService.findUserByUsername(user.getUsername());
 		response.setType("user");
 		if(dbUser == null) {

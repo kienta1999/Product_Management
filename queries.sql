@@ -1,0 +1,3 @@
+CREATE TABLE `productmanager`.`user` ( `id` INT NOT NULL AUTO_INCREMENT , `username` VARCHAR(256) NOT NULL , `password` VARCHAR(256) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+CREATE TABLE `productmanager`.`product` ( `productid` INT NOT NULL AUTO_INCREMENT , `userid` INT NOT NULL , `name` VARCHAR(256) NOT NULL , `price` INT NOT NULL , PRIMARY KEY (`productid`)) ENGINE = InnoDB;
+ALTER TABLE `product` ADD CONSTRAINT `product_userid_to_user_id` FOREIGN KEY (`userid`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
