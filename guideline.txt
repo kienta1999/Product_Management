@@ -1,0 +1,34 @@
+1. Setup Git lab
+
+git config --global user.name "ThangTQ6"
+git config --global user.email "thangtq6@fsoft.com.vn"
+
+git clone https://git3.fsoft.com.vn/fsoft/dsl_javatraining.git
+
+git fetch --all
+
+2. Checkout nhánh develop từ nhánh master
+git checkout develop
+
+
+3. Checkout nhánh feature từ nhánh develop
+examlple base on feature : git checkout -b feature/homepage
+
+4. 2 đứa chia task, rồi build 1 site theo hướng dẫn như thế này 
+https://shareeverythings.com/lap-trinh/java/lap-trinh-spring-boot-crud-don-gian/
+
+5. Sau đó tạo merge request trên git : 
+git add . 
+git commit -m "develop homepage"
+git push origin feature/homepage
+
+=> Tao merge request tu command link URL, assign cho anh Thangtq6
+
+6. Sau khi anh review merge request se approve và merge lên nhánh develop, người khac sau đó có thể : 
+git pull origin develop 
+
+II. Website requirement :
+1. Backend : Sử dụng Java Spring
+2. Frontend : Sử dụng HTML, JS, Jquery, Bootstrap
+3. Database : Sử dụng Mysql
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Hello <%= userid %></h1>
+    <form action="/create" method="post">
+        <input type="hidden" name="userid" value = "<%= userid %>">
+        <div>Name: <input type="text" name="name" required></div>
+        <div>Price: <input type="text" name="price" required></div>
+        <button type="submit">Add Product</button>
+    </form>
+    <br>
+    <table>
+        <tr>
+          <th>Productid</th>
+          <th>Userid</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Delete</th>
+          <th>Update</th>
+        </tr>
+        <% products.forEach(element => { %>
+            <tr>
+                <th><%= element.productid %> </th>
+                <th><%=  element.userid %></th>
+                <th><%=  element.name %></th>
+                <th><%=  element.price %></th>
+                <th><form action="/delete/<%= element.productid %>" method="post"><button type="submit">Delete</button></form></th>
+                <th><a href="/update/<%= element.productid %>">Update</a></th>
+              </tr>
+        <% }) %>
+    </table>
+    <br>
+    <form action="/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

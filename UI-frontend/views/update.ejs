@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update <%= product.name %> </title>
+</head>
+<body>
+    <h3>Update <%= product.name %></h3>
+    <form action="/update/<%= product.productid %>" method="post">
+        <input type="hidden" name="productid" value = "<%= product.productid %>">
+        <input type="hidden" name="userid" value = "<%= product.userid %>">
+        <div>Username: <input type="text" name="name" value = "<%= product.name %>" required></div>
+        <div>Password: <input type="text" name="price" value = "<%= product.price %>" required></div>
+        <button type="submit">Edit</button>
+    </form>
+</body>
+</html>
